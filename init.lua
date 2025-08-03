@@ -788,11 +788,26 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        php = { 'php' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      },
+      formatters = {
+        php = {
+          command = 'php-cs-fixer',
+          env = {
+            PHP_CS_FIXER_IGNORE_ENV = 'true',
+          },
+          args = {
+            'fix',
+            '$FILENAME',
+            '--rules=@PSR12',
+          },
+          stdin = false,
+        },
       },
     },
   },
@@ -1031,6 +1046,10 @@ require('lazy').setup({
     },
   },
 })
+
+require('lspconfig').emmet_ls.setup {
+  filetypes = { 'html', 'blade' },
+}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
